@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Клас {{ student['name'] }} — {{ classroom['name'] }}</h2>
+  <p class="text-muted">{{ classroom['description'] }}</p>
+
+  <hr>
+
+  <div class="row mt-4">
+    <!-- Левая часть: задания ребенка -->
+    <div class="col-md-8">
+      <h4>Завдання {{ student['name'] }}</h4>
+      {% if assignments %}
+        <ul class="list-group">
+          {% for a in assignments %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ a['title'] }}
+              <span class="badge bg-secondary">{{ a.get('status','не виконано') }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">Немає завдань для цього учня.</p>
+      {% endif %}
+    </div>
+
+    <!-- Правая часть: уведомления -->
+    <div class="col-md-4">
+      <h5>Уведомления</h5>
+      {% if notifications %}
+        <ul class="list-group">
+          {% for n in notifications %}
+            <li class="list-group-item">{{ n['message'] }} <small class="text-muted">{{ n['created_at'] }}</small></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">Нет уведомлений.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

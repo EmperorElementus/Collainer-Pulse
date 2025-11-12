@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Статистика и аналитика</h2>
+<div class="grid">
+    <div class="card">
+        <h3>Всего</h3>
+        <p>Пользователей: {{ totals.users }}</p>
+        <p>Классов: {{ totals.classes }}</p>
+        <p>Заданий: {{ totals.assignments }}</p>
+        <p>Отправлено работ: {{ totals.submissions }}</p>
+    </div>
+    <div class="card">
+        <h3>График средних оценок по заданиям</h3>
+        <canvas id="gradesChart" width="400" height="200"></canvas>
+        <script>
+            async function loadChart(){
+                // pick first class (example) or allow selection
+                const cid = {{ class_stats[0].id if class_stats|length>0 else 'null' }};
+                if(!cid) return;
+                const res = await fetch('/stats_data/' + cid);
+                const json = await res.json();
+                const ctx = document.getElementById('gradesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: json.labels,
+                        datasets: [{
+                            label: 'Средняя оценка',
+                            data: json.data
+                        }]
+                    },
+                });
+            }
+            loadChart();
+        </script>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h3>Додати завдання</h3>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label">Назва завдання</label>
+      <input type="text" class="form-control" name="title" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Опис</label>
+      <textarea class="form-control" name="description" rows="4"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Кінцевий термін</label>
+      <input type="datetime-local" class="form-control" name="due_date">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Прикріпити файли</label>
+      <input type="file" name="files" class="form-control" multiple>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Посилання</label>
+      <div id="linkContainer"></div>
+      <button type="button" class="btn btn-outline-primary mt-2" onclick="addLink()">+ Посилання</button>
+    </div>
+
+    <button type="submit" class="btn btn-success">Створити завдання</button>
+    <a href="/classroom/{{ classroom_id }}" class="btn btn-secondary ms-2">Назад</a>
+  </form>
+</div>
+
+<script>
+function addLink() {
+  const div = document.createElement("div");
+  div.classList.add("mt-2");
+  div.innerHTML = `<input type="url" name="links[]" class="form-control" placeholder="https://...">`;
+  document.getElementById("linkContainer").appendChild(div);
+}
+</script>
+{% endblock %}

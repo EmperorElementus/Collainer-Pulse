@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="formcard">
+    <h2>Регистрация</h2>
+    <form method="post">
+        <label>Роль
+            <select name="role" required>
+                <option value="student">Ученик</option>
+                <option value="teacher">Преподаватель</option>
+                <option value="parent">Родитель</option>
+                <option value="admin">Администратор</option>
+            </select>
+        </label>
+        <label>Имя <input name="name" required></label>
+        <label>Email <input name="email" type="email" required></label>
+        <label>Пароль <input name="password" type="password" required></label>
+        <div class="actions">
+            <button class="button">Зарегистрироваться</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Drive — Класс {{ cid }}</h2>
+<div class="grid">
+    <div class="card">
+        <h3>Папки</h3>
+        <form method="post">
+            <input name="title" placeholder="Название папки">
+            <select name="parent">
+                <option value="">— Корень —</option>
+                {% for f in folders %}
+                    <option value="{{ f.id }}">{{ f.title }}</option>
+                {% endfor %}
+            </select>
+            <button class="button small">Создать</button>
+        </form>
+        <ul>
+            {% for f in folders %}
+                <li>{{ f.title }}</li>
+            {% else %}
+                <li>Нет папок</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card">
+        <h3>Файлы</h3>
+        <form method="post" action="{{ url_for('drive_upload', cid=cid) }}" enctype="multipart/form-data">
+            <input name="file" type="file">
+            <select name="folder">
+                <option value="">— Корень —</option>
+                {% for f in folders %}
+                    <option value="{{ f.id }}">{{ f.title }}</option>
+                {% endfor %}
+            </select>
+            <button class="button small">Загрузить</button>
+        </form>
+        <ul>
+            {% for file in files %}
+                <li>{{ file.title }} - <a href="{{ url_for('uploaded_file', filename=file.file) }}">скачать</a></li>
+            {% else %}
+                <li>Нет файлов</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

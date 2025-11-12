@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ classroom['name'] }} — {{ classroom.get('subject', '') }}</h2>
+  <p class="text-muted">{{ classroom['description'] }}</p>
+
+  <hr>
+
+  <!-- Оголошення -->
+  <div class="mt-4">
+    <h4>Оголошення</h4>
+    {% if posts %}
+      {% for post in posts %}
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ post['title'] }}</h5>
+            <p class="card-text">{{ post.get('content', '') }}</p>
+            <small class="text-muted">Автор: {{ post.get('author_name', 'Викладач') }}</small>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-muted">Немає оголошень.</p>
+    {% endif %}
+    <a href="/add_post/{{ classroom['id'] }}" class="btn btn-primary mt-2">Додати оголошення</a>
+  </div>
+
+  <!-- Завдання -->
+  <div class="mt-5">
+    <h4>Завдання</h4>
+    {% if assignments %}
+      <div class="row">
+        {% for a in assignments %}
+          <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="/assignment/{{ a['id'] }}" class="text-decoration-none">{{ a['title'] }}</a>
+                </h5>
+                <p class="card-text text-muted mb-1">
+                  {{ a['description'][:100] }}{% if a['description']|length > 100 %}...{% endif %}
+                </p>
+                {% if a['due_date'] %}
+                  <p class="small text-danger mb-0">До: {{ a['due_date'] }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted">Ще немає завдань.</p>
+    {% endif %}
+    <a href="/add_assignment/{{ classroom['id'] }}" class="btn btn-success mt-3">Додати завдання</a>
+  </div>
+
+  <!-- Учасники -->
+  <div class="mt-5">
+    <h4>Учні</h4>
+    {% if students %}
+      <ul class="list-group mb-3">
+        {% for s in students %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ s['name'] }}
+            <span class="badge bg-secondary">{{ s['email'] }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted">Поки що немає учнів.</p>
+    {% endif %}
+
+    <h5>Співвикладачі</h5>
+    {% if co_teachers %}
+      <ul class="list-group">
+        {% for t in co_teachers %}
+          <li class="list-group-item">{{ t['name'] }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted">Немає співвикладачів.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

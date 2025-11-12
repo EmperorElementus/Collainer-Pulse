@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Кабинет ученика — {{ user.name }}</h2>
+
+<div class="grid">
+    <div class="card">
+        <h3>Мои классы</h3>
+        <ul>
+            {% for c in classes %}
+                <li><a href="{{ url_for('classroom', cid=c.id) }}">{{ c.name }}</a></li>
+            {% else %}
+                <li>Вы не записаны ни в один класс</li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+        <h4>Присоединиться к новому классу</h4>
+        <form action="{{ url_for('join_class') }}" method="post" class="join-form">
+            <input type="text" name="class_code" placeholder="Введите код класса" required class="form-control" style="width: 200px; display:inline-block;">
+            <button type="submit" class="btn btn-primary">Присоединиться</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Средняя оценка</h3>
+        <p>{{ (avg|round(2)) if avg else 'нет оценок' }}</p>
+    </div>
+</div>
+{% endblock %}

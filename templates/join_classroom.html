@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Присоединиться к классу</h2>
+  <form method="POST">
+    <div class="mb-3">
+      <label for="class_code" class="form-label">Код класса</label>
+      <input type="text" class="form-control" id="class_code" name="class_code" placeholder="Например: A1B2C3" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Присоединиться</button>
+  </form>
+</div>
+{% endblock %}

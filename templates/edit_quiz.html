@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Редактировать викторину — {{ quiz.title }}</h2>
+<form method="post">
+    <label>Вопрос <input name="text" required></label>
+    <label>Вариант 1 <input name="choice1"></label>
+    <label>Вариант 2 <input name="choice2"></label>
+    <label>Вариант 3 <input name="choice3"></label>
+    <label>Вариант 4 <input name="choice4"></label>
+    <label>Правильный (1-4) <input name="correct"></label>
+    <div class="actions"><button class="button">Добавить вопрос</button></div>
+</form>
+<h3>Вопросы</h3>
+<ul>
+    {% for q in questions %}
+        <li>{{ q.text }}</li>
+    {% else %}
+        <li>Нет вопросов</li>
+    {% endfor %}
+</ul>
+{% endblock %}

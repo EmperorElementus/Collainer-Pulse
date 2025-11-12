@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Кабинет преподавателя — {{ user.name }}</h2>
+<div class="grid">
+    <div class="card">
+        <h3>Мои классы</h3>
+        <a class="button" href="{{ url_for('create_classroom') }}">Создать класс</a>
+        <ul>
+            {% for c in classes %}
+                <li><a href="{{ url_for('classroom', cid=c.id) }}">{{ c.name }}</a> — Код: {{ c.class_code }}</li>
+            {% else %}
+                <li>Пока нет классов</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card">
+        <h3>Уведомления</h3>
+        <ul>
+            {% for n in notes %}
+                <li>{{ n.message }} <small>({{ n.created_at }})</small></li>
+            {% else %}
+                <li>Нет уведомлений</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

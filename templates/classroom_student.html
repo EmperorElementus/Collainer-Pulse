@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ classroom['name'] }}</h2>
+  <p class="text-muted">{{ classroom['description'] }}</p>
+
+  <hr>
+
+  <!-- Задания и объявления -->
+  <div class="mt-4">
+    <h4>Завдання та оголошення</h4>
+
+    {% if posts %}
+      {% for post in posts %}
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ post['title'] }}</h5>
+            <p class="card-text">{{ post.get('content', '') }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-muted">Ще немає оголошень.</p>
+    {% endif %}
+  </div>
+
+  <!-- Список заданий -->
+  <div class="mt-5">
+    <h4>Ваші завдання</h4>
+    {% if assignments %}
+      <div class="row">
+        {% for a in assignments %}
+          <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="/assignment/{{ a['id'] }}" class="text-decoration-none">{{ a['title'] }}</a>
+                </h5>
+                <p class="card-text text-muted mb-1">
+                  {{ a['description'][:100] }}{% if a['description']|length > 100 %}...{% endif %}
+                </p>
+                {% if a['due_date'] %}
+                  <p class="small text-danger mb-0">До: {{ a['due_date'] }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted">Поки що завдань немає.</p>
+    {% endif %}
+  </div>
+
+  <!-- Материалы -->
+  <div class="mt-5">
+    <h4>Матеріали</h4>
+    {% if materials %}
+      <ul class="list-group">
+        {% for m in materials %}
+          <li class="list-group-item">
+            <a href="{{ url_for('download_material', mid=m['id']) }}">{{ m['title'] }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted">Немає матеріалів.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

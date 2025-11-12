@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Викторина: {{ quiz.title }}</h2>
+<form method="post">
+    {% for q in questions %}
+        <div class="card">
+            <p>{{ q.text }}</p>
+            <label><input type="radio" name="q{{ q.id }}" value="1"> {{ q.choice1 }}</label><br>
+            <label><input type="radio" name="q{{ q.id }}" value="2"> {{ q.choice2 }}</label><br>
+            <label><input type="radio" name="q{{ q.id }}" value="3"> {{ q.choice3 }}</label><br>
+            <label><input type="radio" name="q{{ q.id }}" value="4"> {{ q.choice4 }}</label><br>
+        </div>
+    {% endfor %}
+    <div class="actions"><button class="button">Отправить</button></div>
+</form>
+{% endblock %}

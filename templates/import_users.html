@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Импорт пользователей (CSV)</h2>
+<form method="post" enctype="multipart/form-data">
+    <input name="file" type="file" required>
+    <div class="actions"><button class="button">Импорт</button></div>
+</form>
+<p>CSV должен содержать колонки: name,email,role,password (password опционально)</p>
+{% endblock %}

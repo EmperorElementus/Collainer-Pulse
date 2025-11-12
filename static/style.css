@@ -1,0 +1,12 @@
+:root{--bg:#0f1724;--card:#0b1220;--accent:#7c3aed;--muted:#9aa4b2}
+*{box-sizing:border-box;font-family:Inter, system-ui, sans-serif}
+body{margin:0;background:linear-gradient(180deg,#071122 0%, #071b2b 100%);color:#e6eef6;min-height:100vh;display:flex;flex-direction:column}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);backdrop-filter: blur(6px);}
+.brand a{color:var(--accent);font-weight:700;text-decoration:none;font-size:20px}
+nav a{margin-left:12px;color:var(--muted);text-decoration:none}
+.main{padding:28px;flex:1}
+.card{background:#0b1220;padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+.grid{display:grid;grid-template-columns:1fr 380px;gap:16px}
+.button{background:linear-gradient(90deg,var(--accent),#5b21b6);border:none;color:white;padding:10px 14px;border-radius:10px;text-decoration:none;cursor:pointer}
+input,textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+.formcard{max-width:720px;padding:16px;background:rgba(255,255,255,0.02);border-radius:12px}

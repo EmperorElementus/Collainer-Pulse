@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+
+  <h3>{{ assignment.title }}</h3>
+  <p class="text-muted">Клас: {{ assignment.classroom_name }}</p>
+
+  {% if assignment.description %}
+    <p>{{ assignment.description }}</p>
+  {% endif %}
+
+  {% if assignment.attachments %}
+  <div class="mt-3">
+    <h6>Прикріплені файли викладача:</h6>
+    <ul>
+      {% for file in assignment.attachments | fromjson %}
+        <li><a href="/uploads/{{ file }}" target="_blank">{{ file }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <hr>
+
+{% if user.role == 'student' %}
+  {% if my_submission %}
+    <h5>✅ Ви вже здали завдання!</h5>
+    <p><strong>Текст:</strong> {{ my_submission.text_answer }}</p>
+
+    {% if my_submission.attachments %}
+      <h6>Ваші прикріплені файли:</h6>
+      <ul>
+        {% for f in my_submission.attachments | fromjson %}
+          <li><a href="/uploads/{{ f }}" target="_blank">{{ f }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <p class="text-muted">Здано: {{ my_submission.submitted_at }}</p>
+
+    {% if my_submission.grade or my_submission.teacher_comment %}
+      <hr>
+      <div class="alert alert-info mt-3">
+        <h6>🧾 Перевірено викладачем:</h6>
+        {% if my_submission.grade %}
+          <p><strong>Оцінка:</strong> {{ my_submission.grade }}</p>
+        {% endif %}
+        {% if my_submission.teacher_comment %}
+          <p><strong>Коментар:</strong> {{ my_submission.teacher_comment }}</p>
+        {% endif %}
+      </div>
+    {% else %}
+      <p class="text-muted mt-3">⏳ Вашу роботу ще не перевірено.</p>
+    {% endif %}
+
+  {% else %}
+    <h5>Ваша відповідь</h5>
+    <form method="post" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="text_answer" class="form-label">Текст відповіді</label>
+        <textarea name="text_answer" id="text_answer" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="submission" class="form-label">Прикріпити файли</label>
+        <input type="file" name="submission" id="submission" multiple class="form-control">
+      </div>
+      <button type="submit" class="btn btn-success">Відправити</button>
+    </form>
+  {% endif %}
+{% endif %}
+
+
+{% if user.role == 'teacher' %}
+  <h4 class="mt-4">Відповіді студентів</h4>
+  {% if submissions %}
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Учень</th>
+          <th>Текст</th>
+          <th>Файли</th>
+          <th>Час</th>
+          <th>Оцінка</th>
+          <th>Коментар</th>
+          <th>Дія</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in submissions %}
+        <tr>
+          <td>{{ s.student_name }}</td>
+          <td style="white-space: pre-wrap;">{{ s.text_answer or '' }}</td>
+          <td>
+            {% if s.attachments %}
+              <ul class="mb-0">
+                {% for f in s.attachments | fromjson %}
+                  <li><a href="/uploads/{{ f }}" target="_blank">{{ f }}</a></li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              —
+            {% endif %}
+          </td>
+          <td>{{ s.submitted_at }}</td>
+
+          <td colspan="3">
+            <form method="post" class="row g-2">
+              <input type="hidden" name="submission_id" value="{{ s.id }}">
+              <div class="col-md-3">
+                <input type="text" name="grade" class="form-control form-control-sm"
+                       value="{{ s.grade or '' }}" placeholder="Оцінка">
+              </div>
+              <div class="col-md-6">
+                <input type="text" name="teacher_comment" class="form-control form-control-sm"
+                       value="{{ s.teacher_comment or '' }}" placeholder="Коментар">
+              </div>
+              <div class="col-md-3 d-grid">
+                <button type="submit" class="btn btn-success btn-sm">💾 Зберегти</button>
+              </div>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-muted">Ще ніхто не здав це завдання.</p>
+  {% endif %}
+{% endif %}
+
+
+</div>
+{% endblock %}

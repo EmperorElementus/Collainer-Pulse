@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Привязать родителя</h3>
+  <form method="POST">
+    <div class="mb-3">
+      <label for="parent_code" class="form-label">Введите код родителя</label>
+      <input type="text" class="form-control" id="parent_code" name="parent_code" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Привязать</button>
+  </form>
+</div>
+{% endblock %}

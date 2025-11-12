@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Панель администратора — {{ user.name }}</h2>
+<div class="card">
+    <h3>Пользователи</h3>
+    <a class="button" href="{{ url_for('export_users') }}">Export users CSV</a>
+    <a class="button" href="{{ url_for('import_users') }}">Import users CSV</a>
+    <ul>
+        {% for u in users %}
+            <li>[{{ u.role }}] {{ u.name }} — {{ u.email }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
